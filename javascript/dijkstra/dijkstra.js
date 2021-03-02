@@ -6,7 +6,8 @@ const dijkstra = (
   return {
     totalDistance: Infinity,
     route: `${startNodeKey} -> ${finishNodeKey}`,
-    err: false,
+    err: true,
+    errMessage: 'Error'
   };
 };
 

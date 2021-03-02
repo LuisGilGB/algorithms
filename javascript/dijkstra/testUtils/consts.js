@@ -48,6 +48,36 @@ const FOUR_NODES_CASE_EXPECTED_RESPONSE = {
 
 const SIX_NODES_CASE_GRAPH = {
   start: {
+    a: 5,
+    b: 2,
+  },
+  a: {
+    c: 4,
+    d: 2,
+  },
+  b: {
+    a: 8,
+    d: 7,
+  },
+  c: {
+    finish: 3,
+    d: 6,
+  },
+  d: {
+    finish: 1,
+  },
+  finish: {},
+};
+
+const SIX_NODES_CASE_EXPECTED_RESPONSE = {
+  totalDistance: 8,
+  route: 'start -> a -> d -> finish',
+  err: false,
+  errMessage: null,
+};
+
+const ALIASED_SIX_NODES_CASE_GRAPH = {
+  book: {
     lp: 5,
     poster: 0,
   },
@@ -60,17 +90,17 @@ const SIX_NODES_CASE_GRAPH = {
     drums: 35,
   },
   bassGuitar: {
-    finish: 20,
+    piano: 20,
   },
   drums: {
-    finish: 10,
+    piano: 10,
   },
-  finish: {},
+  piano: {},
 };
 
-const SIX_NODES_CASE_EXPECTED_RESPONSE = {
+const ALIASED_SIX_NODES_CASE_EXPECTED_RESPONSE = {
   totalDistance: 35,
-  route: 'start -> lp -> drums -> finish',
+  route: 'book -> lp -> drums -> piano',
   err: false,
   errMessage: null,
 };
@@ -84,4 +114,6 @@ module.exports = {
   FOUR_NODES_CASE_EXPECTED_RESPONSE,
   SIX_NODES_CASE_GRAPH,
   SIX_NODES_CASE_EXPECTED_RESPONSE,
+  ALIASED_SIX_NODES_CASE_GRAPH,
+  ALIASED_SIX_NODES_CASE_EXPECTED_RESPONSE,
 };

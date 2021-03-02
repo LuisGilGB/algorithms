@@ -8,6 +8,10 @@ const {
   THREE_NODES_CASE_EXPECTED_RESPONSE,
   FOUR_NODES_CASE_GRAPH,
   FOUR_NODES_CASE_EXPECTED_RESPONSE,
+  SIX_NODES_CASE_GRAPH,
+  SIX_NODES_CASE_EXPECTED_RESPONSE,
+  ALIASED_SIX_NODES_CASE_GRAPH,
+  ALIASED_SIX_NODES_CASE_EXPECTED_RESPONSE,
 } = require('./testUtils/consts');
 
 describe('Dijkstra function is returning something', () => {
@@ -122,6 +126,9 @@ describe('Dijkstra returns a valid response when using with a valid graph as inp
     dijkstra(FOUR_NODES_CASE_GRAPH).should.be.eql(FOUR_NODES_CASE_EXPECTED_RESPONSE);
   });
   it('Dijkstra returns a valid response on the 6 nodes graph case', () => {
-    dijkstra(FOUR_NODES_CASE_GRAPH).should.be.eql(FOUR_NODES_CASE_EXPECTED_RESPONSE);
+    dijkstra(SIX_NODES_CASE_GRAPH).should.be.eql(SIX_NODES_CASE_EXPECTED_RESPONSE);
+  });
+  it('Dijkstra returns a valid response on the 6 nodes graph case with custom keys for start and finish nodes', () => {
+    dijkstra(ALIASED_SIX_NODES_CASE_GRAPH, 'book', 'piano').should.be.eql(ALIASED_SIX_NODES_CASE_EXPECTED_RESPONSE);
   });
 });

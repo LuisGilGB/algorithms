@@ -121,4 +121,7 @@ describe('Dijkstra returns a valid response when using with a valid graph as inp
   it('Dijkstra returns a valid response on the 4 nodes graph case', () => {
     dijkstra(FOUR_NODES_CASE_GRAPH).should.be.eql(FOUR_NODES_CASE_EXPECTED_RESPONSE);
   });
+  it('Dijkstra returns a valid response on the 6 nodes graph case', () => {
+    dijkstra(FOUR_NODES_CASE_GRAPH).should.be.eql(FOUR_NODES_CASE_EXPECTED_RESPONSE);
+  });
 });

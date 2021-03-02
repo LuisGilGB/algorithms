@@ -46,6 +46,35 @@ const FOUR_NODES_CASE_EXPECTED_RESPONSE = {
   errMessage: null,
 };
 
+const SIX_NODES_CASE_GRAPH = {
+  start: {
+    lp: 5,
+    poster: 0
+  },
+  lp: {
+    bassGuitar: 15,
+    drums: 20
+  },
+  poster: {
+    bassGuitar: 30,
+    drums: 35
+  },
+  bassGuitar: {
+    finish: 20
+  },
+  drums: {
+    finish: 10
+  },
+  finish: {},
+};
+
+const SIX_NODES_CASE_EXPECTED_RESPONSE = {
+  totalDistance: 35,
+  route: 'start -> finish',
+  err: false,
+  errMessage: null,
+};
+
 module.exports = {
   BASIC_CASE_GRAPH,
   BASIC_CASE_EXPECTED_RESPONSE,
@@ -53,4 +82,6 @@ module.exports = {
   THREE_NODES_CASE_EXPECTED_RESPONSE,
   FOUR_NODES_CASE_GRAPH,
   FOUR_NODES_CASE_EXPECTED_RESPONSE,
+  SIX_NODES_CASE_GRAPH,
+  SIX_NODES_CASE_EXPECTED_RESPONSE,
 };

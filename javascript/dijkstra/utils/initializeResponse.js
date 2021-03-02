@@ -1,7 +1,7 @@
 const initializeResponse = (startNodeKey, finishNodeKey) => ({
   totalDistance: Infinity,
   route: `${startNodeKey} -> ${finishNodeKey}`,
-  err: true,
-  errMessage: 'Error',
+  err: false,
+  errMessage: null,
 });
 exports.initializeResponse = initializeResponse;

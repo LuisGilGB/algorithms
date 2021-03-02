@@ -1,6 +1,12 @@
 const should = require('chai').should();
-const { ERR_MESSAGES } = require('./utils/consts');
 const dijkstra = require('./dijkstra');
+const { ERR_MESSAGES } = require('./utils/consts');
+const {
+  BASIC_CASE_GRAPH,
+  BASIC_CASE_EXPECTED_RESPONSE,
+  THREE_NODES_GRAPH,
+  THREE_NODES_CASE_EXPECTED_RESPONSE,
+} = require('./testUtils/consts');
 
 describe('Dijkstra function is returning something', () => {
   it('Dijkstra should exist', () => {
@@ -100,5 +106,14 @@ describe('Dijkstra function requires essential parameters', () => {
     })
       .should.have.property('errMessage')
       .to.equal(ERR_MESSAGES.NOT_VALID_GRAPH_NODE);
+  });
+});
+
+describe('Dijkstra returns a valid response when using with a valid graph as input', () => {
+  it('Dijkstra returns a valid response on the basic graph case', () => {
+    dijkstra(BASIC_CASE_GRAPH).should.be.eql(BASIC_CASE_EXPECTED_RESPONSE);
+  });
+  it('Dijkstra returns a valid response on the nodes graph case', () => {
+    dijkstra(THREE_NODES_GRAPH).should.be.eql(THREE_NODES_CASE_EXPECTED_RESPONSE);
   });
 });

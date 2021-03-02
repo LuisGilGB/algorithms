@@ -1,5 +1,5 @@
 const should = require('chai').should();
-const { ERR_MESSAGES } = require('./consts');
+const { ERR_MESSAGES } = require('./utils/consts');
 const dijkstra = require('./dijkstra');
 
 describe('Dijkstra function is returning something', () => {
@@ -19,7 +19,7 @@ describe('Dijkstra function is returning something', () => {
     dijkstra().should.have.property('route').that.is.a('string');
   });
   it('Dijkstra should return an err property that is true when no arguments are given', () => {
-    dijkstra().should.have.property('err').to.equals(true);
+    dijkstra().should.have.property('err').to.equal(true);
   });
   it('Dijkstra should return an errMessage property that is a string when no arguments are given', () => {
     dijkstra().should.have.property('errMessage').that.is.a('string');
@@ -28,27 +28,77 @@ describe('Dijkstra function is returning something', () => {
 
 describe('Dijkstra function requires essential parameters', () => {
   it('Dijkstra returns an err property that is true when no graph argument is given', () => {
-    dijkstra().should.have.property('err').to.equals(true);
+    dijkstra().should.have.property('err').to.equal(true);
   });
   it('Dijkstra returns no graph error message as errMessage when no graph is provided as an argument', () => {
     dijkstra()
       .should.have.property('errMessage')
-      .to.equals(ERR_MESSAGES.NO_GRAPH);
+      .to.equal(ERR_MESSAGES.NO_GRAPH);
   });
   it('Dijkstra returns an err property that is true when the given graph does not have the start node key', () => {
-    dijkstra({}).should.have.property('err').to.equals(true);
+    dijkstra({}).should.have.property('err').to.equal(true);
   });
-  it('Dijkstra returns not valid graph error message as errMessage when the given graph does not have the start node key', () => {
+  it('Dijkstra returns not valid graph error as errMessage when the given graph does not have the start node key', () => {
     dijkstra({})
       .should.have.property('errMessage')
-      .to.equals(ERR_MESSAGES.NOT_VALID_GRAPH);
+      .to.equal(ERR_MESSAGES.NOT_VALID_GRAPH);
   });
   it('Dijkstra returns an err property that is true when the given graph does not have the finish node key', () => {
-    dijkstra({}).should.have.property('err').to.equals(true);
+    dijkstra({}).should.have.property('err').to.equal(true);
   });
-  it('Dijkstra returns not valid graph error message as errMessage when the given graph does not have the finish node key', () => {
+  it('Dijkstra returns not valid graph error as errMessage when the given graph does not have the finish node key', () => {
     dijkstra({ start: 0 })
       .should.have.property('errMessage')
-      .to.equals(ERR_MESSAGES.NOT_VALID_GRAPH);
+      .to.equal(ERR_MESSAGES.NOT_VALID_GRAPH);
+  });
+  it('Dijkstra returns an err property that is true when the given graph has a start node that does not have the graph node structure ', () => {
+    dijkstra({
+      start: 'This is not a graph node',
+      finish: 'This is not a graph node',
+    })
+      .should.have.property('err')
+      .to.equal(true);
+  });
+  it('Dijkstra returns not valid graph node error as errMessage when the given graph has a start node that does not have the graph node structure ', () => {
+    dijkstra({
+      start: 'This is not a graph node',
+      finish: 'This is not a graph node',
+    })
+      .should.have.property('errMessage')
+      .to.equal(ERR_MESSAGES.NOT_VALID_GRAPH_NODE);
+  });
+  it('Dijkstra returns an err property that is true when the given graph has a finish node that does not have the graph node structure ', () => {
+    dijkstra({
+      start: { finish: 2 },
+      finish: 'This is not a graph node',
+    })
+      .should.have.property('err')
+      .to.equal(true);
+  });
+  it('Dijkstra returns not valid graph node error as errMessage when the given graph has a finish node that does not have the graph node structure ', () => {
+    dijkstra({
+      start: { finish: 2 },
+      finish: 'This is not a graph node',
+    })
+      .should.have.property('errMessage')
+      .to.equal(ERR_MESSAGES.NOT_VALID_GRAPH_NODE);
+  });
+  it('Dijkstra returns an err property that is true when the given graph has a node that does not have the graph node structure ', () => {
+    dijkstra({
+      start: { aNode: 1, finish: 2 },
+      aNode: 'This is not a graph node',
+      finish: {},
+    })
+      .should.have.property('err')
+      .to.equal(true);
+  });
+  it('Dijkstra returns not valid graph node error as errMessage when the given graph has a node that does not have the graph node structure ', () => {
+    dijkstra({
+      start: { aNode: 1, finish: 2 },
+      aNode: 'This is not a graph node',
+      finish: {},
+    })
+      .should.have.property('errMessage')
+      .to.equal(ERR_MESSAGES.NOT_VALID_GRAPH_NODE);
   });
 });

@@ -19,7 +19,7 @@ const THREE_NODES_CASE_GRAPH = {
 
 const THREE_NODES_CASE_EXPECTED_RESPONSE = {
   totalDistance: 2,
-  route: 'start -> finish',
+  route: 'start -> middleNode -> finish',
   err: false,
   errMessage: null,
 };
@@ -27,21 +27,21 @@ const THREE_NODES_CASE_EXPECTED_RESPONSE = {
 const FOUR_NODES_CASE_GRAPH = {
   start: {
     a: 6,
-    b: 2
+    b: 2,
   },
   a: {
     finish: 1,
   },
   b: {
     a: 3,
-    finish: 5
+    finish: 5,
   },
   finish: {},
 };
 
 const FOUR_NODES_CASE_EXPECTED_RESPONSE = {
   totalDistance: 6,
-  route: 'start -> finish',
+  route: 'start -> b -> a -> finish',
   err: false,
   errMessage: null,
 };
@@ -49,28 +49,28 @@ const FOUR_NODES_CASE_EXPECTED_RESPONSE = {
 const SIX_NODES_CASE_GRAPH = {
   start: {
     lp: 5,
-    poster: 0
+    poster: 0,
   },
   lp: {
     bassGuitar: 15,
-    drums: 20
+    drums: 20,
   },
   poster: {
     bassGuitar: 30,
-    drums: 35
+    drums: 35,
   },
   bassGuitar: {
-    finish: 20
+    finish: 20,
   },
   drums: {
-    finish: 10
+    finish: 10,
   },
   finish: {},
 };
 
 const SIX_NODES_CASE_EXPECTED_RESPONSE = {
   totalDistance: 35,
-  route: 'start -> finish',
+  route: 'start -> lp -> drums -> finish',
   err: false,
   errMessage: null,
 };

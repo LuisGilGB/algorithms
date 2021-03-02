@@ -66,9 +66,22 @@ const dijkstra = (graph, startNodeKey = 'start', finishNodeKey = 'finish') => {
 
   runAlgorithm();
 
+  const getRoute = (currentRoute = [finishNodeKey]) => {
+    const currentNode = currentRoute[0];
+    const previousNode = parentsDict[currentNode];
+    if (!previousNode) {
+      return;
+    }
+    if (previousNode === startNodeKey) {
+      return [previousNode, ...currentRoute].join(' -> ');
+    }
+    return getRoute([previousNode, ...currentRoute]);
+  };
+
   return {
     ...response,
     totalDistance: distancesDict[finishNodeKey],
+    route: getRoute(),
   };
 };
 

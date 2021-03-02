@@ -4,8 +4,10 @@ const { ERR_MESSAGES } = require('./utils/consts');
 const {
   BASIC_CASE_GRAPH,
   BASIC_CASE_EXPECTED_RESPONSE,
-  THREE_NODES_GRAPH,
+  THREE_NODES_CASE_GRAPH,
   THREE_NODES_CASE_EXPECTED_RESPONSE,
+  FOUR_NODES_CASE_GRAPH,
+  FOUR_NODES_CASE_EXPECTED_RESPONSE,
 } = require('./testUtils/consts');
 
 describe('Dijkstra function is returning something', () => {
@@ -113,7 +115,10 @@ describe('Dijkstra returns a valid response when using with a valid graph as inp
   it('Dijkstra returns a valid response on the basic graph case', () => {
     dijkstra(BASIC_CASE_GRAPH).should.be.eql(BASIC_CASE_EXPECTED_RESPONSE);
   });
-  it('Dijkstra returns a valid response on the nodes graph case', () => {
-    dijkstra(THREE_NODES_GRAPH).should.be.eql(THREE_NODES_CASE_EXPECTED_RESPONSE);
+  it('Dijkstra returns a valid response on the 3 nodes graph case', () => {
+    dijkstra(THREE_NODES_CASE_GRAPH).should.be.eql(THREE_NODES_CASE_EXPECTED_RESPONSE);
+  });
+  it('Dijkstra returns a valid response on the 4 nodes graph case', () => {
+    dijkstra(FOUR_NODES_CASE_GRAPH).should.be.eql(FOUR_NODES_CASE_EXPECTED_RESPONSE);
   });
 });

@@ -33,7 +33,7 @@ const dijkstra = (graph, startNodeKey = 'start', finishNodeKey = 'finish') => {
       .reduce(
         (temp, nodeKey) =>
           temp
-            ? distancesDict[nodeKey] < temp
+            ? distancesDict[nodeKey] < distancesDict[temp]
               ? nodeKey
               : temp
             : nodeKey,

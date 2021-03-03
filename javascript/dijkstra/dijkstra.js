@@ -27,18 +27,20 @@ const dijkstra = (graph, startNodeKey = 'start', finishNodeKey = 'finish') => {
   const parentsDict = { [startNodeKey]: 0 };
   const evaluatedNodes = [];
 
+  const isNotAnEvaluatedNodeYet = (nodeKey) =>
+    !evaluatedNodes.includes(nodeKey);
+
+  const updateTempIfNodeIsAtShorterDistance = (temp, nodeKey) =>
+    temp
+      ? distancesDict[nodeKey] < distancesDict[temp]
+        ? nodeKey
+        : temp
+      : nodeKey;
+
   const calculateNextShortestDistanceNodeKey = () =>
     Object.keys(distancesDict)
-      .filter((nodeKey) => !evaluatedNodes.includes(nodeKey))
-      .reduce(
-        (temp, nodeKey) =>
-          temp
-            ? distancesDict[nodeKey] < distancesDict[temp]
-              ? nodeKey
-              : temp
-            : nodeKey,
-        null
-      );
+      .filter(isNotAnEvaluatedNodeYet)
+      .reduce(updateTempIfNodeIsAtShorterDistance, null);
 
   const runAlgorithm = (shortestDistanceNodeKey = startNodeKey) => {
     const currentNodeDistance = distancesDict[shortestDistanceNodeKey];

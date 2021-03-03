@@ -42,6 +42,11 @@ const dijkstra = (graph, startNodeKey = 'start', finishNodeKey = 'finish') => {
       .filter(isNotAnEvaluatedNodeYet)
       .reduce(updateTempIfNodeIsAtShorterDistance, null);
 
+  const expectedDistanceIsShorterThanCurrentlySavedForDestinationKey = (
+    expectedDistance,
+    destinationNodeKey,
+  ) => expectedDistance < distancesDict[destinationNodeKey];
+
   const runAlgorithm = (shortestDistanceNodeKey = startNodeKey) => {
     const currentNodeDistance = distancesDict[shortestDistanceNodeKey];
     Object.keys(graph[shortestDistanceNodeKey]).forEach(
@@ -49,7 +54,12 @@ const dijkstra = (graph, startNodeKey = 'start', finishNodeKey = 'finish') => {
         const expectedDistance =
           currentNodeDistance +
           graph[shortestDistanceNodeKey][destinationNodeKey];
-        if (expectedDistance < distancesDict[destinationNodeKey]) {
+        if (
+          expectedDistanceIsShorterThanCurrentlySavedForDestinationKey(
+            expectedDistance,
+            destinationNodeKey,
+          )
+        ) {
           distancesDict[destinationNodeKey] = expectedDistance;
           parentsDict[destinationNodeKey] = shortestDistanceNodeKey;
         }

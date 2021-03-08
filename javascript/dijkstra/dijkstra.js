@@ -12,7 +12,7 @@ const runDijkstraAlgorithm = require('./utils/runDijkstraAlgorithm');
 const dijkstra = (
   graph,
   startNodeKey = DEFAULT_START_NODE_KEY,
-  finishNodeKey = DEFAULT_FINISH_NODE_KEY
+  finishNodeKey = DEFAULT_FINISH_NODE_KEY,
 ) => {
   const response = initializeResponse(startNodeKey, finishNodeKey);
   if (!graph) {
@@ -35,7 +35,7 @@ const dijkstra = (
     const currentNode = currentRoute[0];
     const previousNode = parentsHashMap[currentNode];
     if (!previousNode) {
-      return;
+      return null;
     }
     if (previousNode === startNodeKey) {
       return [previousNode, ...currentRoute].join(' -> ');

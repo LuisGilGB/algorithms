@@ -15,34 +15,50 @@ const runDijkstraAlgorithm = (
   const parentsHashMap = initializeParentsHashMap(startNodeKey);
   const evaluatedNodes = [];
 
+  const calculateExpectedDistance = (
+    { key: originNodeKey, distance: originNodeDistance },
+    { key: destinationNodeKey },
+  ) => originNodeDistance + graph[originNodeKey][destinationNodeKey];
+
+  const evaluateDistancesFromANodeAndUpdateMapsIfShorterDistancesAreFound = (
+    currentNodeKey,
+    currentNodeDistance,
+  ) => (
+    Object.keys(graph[currentNodeKey]).forEach((destinationNodeKey) => {
+      const expectedDistance = calculateExpectedDistance(
+        { key: currentNodeKey, distance: currentNodeDistance },
+        { key: destinationNodeKey },
+      );
+      if (
+        expectedDistanceIsShorterThanCurrentlySavedForDestinationKey(
+          distancesHashMap,
+          expectedDistance,
+          destinationNodeKey,
+        )
+      ) {
+        distancesHashMap[destinationNodeKey] = expectedDistance;
+        parentsHashMap[destinationNodeKey] = currentNodeKey;
+      }
+    })
+  );
+
+  const hasReachedGraphFinish = (nextShortestDistanceNodeKey) => (
+    !nextShortestDistanceNodeKey
+    || nextShortestDistanceNodeKey === finishNodeKey
+  );
+
   const runDijkstraIteration = (shortestDistanceNodeKey = startNodeKey) => {
     const currentNodeDistance = distancesHashMap[shortestDistanceNodeKey];
-    Object.keys(graph[shortestDistanceNodeKey]).forEach(
-      (destinationNodeKey) => {
-        const expectedDistance =
-          currentNodeDistance +
-          graph[shortestDistanceNodeKey][destinationNodeKey];
-        if (
-          expectedDistanceIsShorterThanCurrentlySavedForDestinationKey(
-            distancesHashMap,
-            expectedDistance,
-            destinationNodeKey
-          )
-        ) {
-          distancesHashMap[destinationNodeKey] = expectedDistance;
-          parentsHashMap[destinationNodeKey] = shortestDistanceNodeKey;
-        }
-      }
+    evaluateDistancesFromANodeAndUpdateMapsIfShorterDistancesAreFound(
+      shortestDistanceNodeKey,
+      currentNodeDistance,
     );
     evaluatedNodes.push(shortestDistanceNodeKey);
     const nextShortestDistanceNodeKey = calculateNextShortestDistanceNodeKey(
       distancesHashMap,
       evaluatedNodes,
     );
-    if (
-      !nextShortestDistanceNodeKey ||
-      nextShortestDistanceNodeKey === finishNodeKey
-    ) {
+    if (hasReachedGraphFinish(nextShortestDistanceNodeKey)) {
       return {
         distancesHashMap,
         parentsHashMap,

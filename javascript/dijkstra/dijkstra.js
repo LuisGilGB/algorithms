@@ -12,11 +12,12 @@ const checkAsError = require('./utils/checkAsError');
 const isValidGraph = require('./utils/isValidGraph');
 const someNodesAreNotValid = require('./utils/someNodesAreNotValid');
 const calculateNextShortestDistanceNodeKey = require('./utils/calculateNextShortestDistanceNodeKey');
+const expectedDistanceIsShorterThanCurrentlySavedForDestinationKey = require('./utils/expectedDistanceIsShorterThanCurrentlySavedForDestinationKey');
 
 const dijkstra = (
   graph,
   startNodeKey = DEFAULT_START_NODE_KEY,
-  finishNodeKey = DEFAULT_FINISH_NODE_KEY
+  finishNodeKey = DEFAULT_FINISH_NODE_KEY,
 ) => {
   const response = initializeResponse(startNodeKey, finishNodeKey);
   if (!graph) {
@@ -32,11 +33,6 @@ const dijkstra = (
   const parentsHashMap = initializeParentsHashMap(startNodeKey);
   const evaluatedNodes = [];
 
-  const expectedDistanceIsShorterThanCurrentlySavedForDestinationKey = (
-    expectedDistance,
-    destinationNodeKey
-  ) => expectedDistance < distancesHashMap[destinationNodeKey];
-
   const runAlgorithm = (shortestDistanceNodeKey = startNodeKey) => {
     const currentNodeDistance = distancesHashMap[shortestDistanceNodeKey];
     Object.keys(graph[shortestDistanceNodeKey]).forEach(
@@ -46,8 +42,9 @@ const dijkstra = (
           graph[shortestDistanceNodeKey][destinationNodeKey];
         if (
           expectedDistanceIsShorterThanCurrentlySavedForDestinationKey(
+            distancesHashMap,
             expectedDistance,
-            destinationNodeKey
+            destinationNodeKey,
           )
         ) {
           distancesHashMap[destinationNodeKey] = expectedDistance;
@@ -58,7 +55,7 @@ const dijkstra = (
     evaluatedNodes.push(shortestDistanceNodeKey);
     const nextShortestDistanceNodeKey = calculateNextShortestDistanceNodeKey(
       distancesHashMap,
-      evaluatedNodes,
+      evaluatedNodes
     );
     if (
       !nextShortestDistanceNodeKey ||

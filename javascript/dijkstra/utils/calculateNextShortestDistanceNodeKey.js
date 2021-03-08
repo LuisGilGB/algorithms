@@ -2,18 +2,22 @@ const isNotAnEvaluatedNodeYet = require('./isNotAnEvaluatedNodeYet');
 
 const calculateNextShortestDistanceNodeKey = (
   distancesHashMap = {},
-  evaluatedNodes = []
+  evaluatedNodes = [],
 ) => {
   const updateTempIfNodeIsAtShorterDistance = (temp, nodeKey) => {
     const newNodeIsAtShorterDistanceThanCurrentShortest = () => (
       distancesHashMap[nodeKey] < distancesHashMap[temp]
     );
 
-    const getShorterDistanceBetweenNewNodeAndCurrentDraft = () => (
+    const getShorterDistanceNodeBetweenNewNodeAndCurrentDraft = () => (
       newNodeIsAtShorterDistanceThanCurrentShortest() ? nodeKey : temp
     );
 
-    return temp ? getShorterDistanceBetweenNewNodeAndCurrentDraft() : nodeKey;
+    const returnNewNodeIfNoDraftOrCompareToGetTheShorterDistanceNode = () => (
+      temp ? getShorterDistanceNodeBetweenNewNodeAndCurrentDraft() : nodeKey
+    );
+
+    return returnNewNodeIfNoDraftOrCompareToGetTheShorterDistanceNode();
   };
 
   return Object.keys(distancesHashMap)

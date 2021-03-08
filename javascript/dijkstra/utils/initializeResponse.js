@@ -4,4 +4,5 @@ const initializeResponse = (startNodeKey, finishNodeKey) => ({
   err: false,
   errMessage: null,
 });
-exports.initializeResponse = initializeResponse;
+
+module.exports = initializeResponse;

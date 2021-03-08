@@ -1,6 +1,6 @@
-const { checkAsError } = require('./utils/checkAsError');
-const { initializeResponse } = require('./utils/initializeResponse');
 const { ERR_MESSAGES } = require('./utils/consts');
+const initializeResponse = require('./utils/initializeResponse');
+const checkAsError = require('./utils/checkAsError');
 const isValidGraph = require('./utils/isValidGraph');
 const someNodesAreNotValid = require('./utils/someNodesAreNotValid');
 

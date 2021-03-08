@@ -3,4 +3,5 @@ const checkAsError = (inputResponse = {}, errMessage = 'Error') => ({
   err: true,
   errMessage,
 });
-exports.checkAsError = checkAsError;
+
+module.exports = checkAsError;

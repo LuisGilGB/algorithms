@@ -1,10 +1,19 @@
-const { ERR_MESSAGES } = require('./utils/consts');
+const {
+  ERR_MESSAGES,
+  DEFAULT_START_NODE_KEY,
+  DEFAULT_FINISH_NODE_KEY,
+} = require('./utils/consts');
 const initializeResponse = require('./utils/initializeResponse');
 const checkAsError = require('./utils/checkAsError');
 const isValidGraph = require('./utils/isValidGraph');
 const someNodesAreNotValid = require('./utils/someNodesAreNotValid');
+const initializeDistancesHashMap = require('./utils/initializeDistancesHashMap');
 
-const dijkstra = (graph, startNodeKey = 'start', finishNodeKey = 'finish') => {
+const dijkstra = (
+  graph,
+  startNodeKey = DEFAULT_START_NODE_KEY,
+  finishNodeKey = DEFAULT_FINISH_NODE_KEY,
+) => {
   const response = initializeResponse(startNodeKey, finishNodeKey);
   if (!graph) {
     return checkAsError(response, ERR_MESSAGES.NO_GRAPH);
@@ -15,17 +24,7 @@ const dijkstra = (graph, startNodeKey = 'start', finishNodeKey = 'finish') => {
   if (someNodesAreNotValid(graph)) {
     return checkAsError(response, ERR_MESSAGES.NOT_VALID_GRAPH_NODE);
   }
-  const distancesDict = Object.keys(graph).reduce(
-    (temp, key) => {
-      if (key !== startNodeKey) {
-        // eslint-disable-next-line no-param-reassign
-        temp[key] = Infinity;
-      }
-      return temp;
-    },
-    // eslint-disable-next-line comma-dangle
-    { [startNodeKey]: 0 }
-  );
+  const distancesDict = initializeDistancesHashMap(graph, startNodeKey);
   const parentsDict = { [startNodeKey]: 0 };
   const evaluatedNodes = [];
 

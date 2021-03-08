@@ -11,6 +11,7 @@ const {
 const checkAsError = require('./utils/checkAsError');
 const isValidGraph = require('./utils/isValidGraph');
 const someNodesAreNotValid = require('./utils/someNodesAreNotValid');
+const calculateNextShortestDistanceNodeKey = require('./utils/calculateNextShortestDistanceNodeKey');
 
 const dijkstra = (
   graph,
@@ -30,21 +31,6 @@ const dijkstra = (
   const distancesHashMap = initializeDistancesHashMap(graph, startNodeKey);
   const parentsHashMap = initializeParentsHashMap(startNodeKey);
   const evaluatedNodes = [];
-
-  const isNotAnEvaluatedNodeYet = (nodeKey) =>
-    !evaluatedNodes.includes(nodeKey);
-
-  const updateTempIfNodeIsAtShorterDistance = (temp, nodeKey) =>
-    temp
-      ? distancesHashMap[nodeKey] < distancesHashMap[temp]
-        ? nodeKey
-        : temp
-      : nodeKey;
-
-  const calculateNextShortestDistanceNodeKey = () =>
-    Object.keys(distancesHashMap)
-      .filter(isNotAnEvaluatedNodeYet)
-      .reduce(updateTempIfNodeIsAtShorterDistance, null);
 
   const expectedDistanceIsShorterThanCurrentlySavedForDestinationKey = (
     expectedDistance,
@@ -70,7 +56,10 @@ const dijkstra = (
       }
     );
     evaluatedNodes.push(shortestDistanceNodeKey);
-    const nextShortestDistanceNodeKey = calculateNextShortestDistanceNodeKey();
+    const nextShortestDistanceNodeKey = calculateNextShortestDistanceNodeKey(
+      distancesHashMap,
+      evaluatedNodes,
+    );
     if (
       !nextShortestDistanceNodeKey ||
       nextShortestDistanceNodeKey === finishNodeKey

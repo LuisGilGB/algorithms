@@ -2,6 +2,7 @@ const { checkAsError } = require('./utils/checkAsError');
 const { initializeResponse } = require('./utils/initializeResponse');
 const { ERR_MESSAGES } = require('./utils/consts');
 const isValidGraph = require('./utils/isValidGraph');
+const someNodesAreNotValid = require('./utils/someNodesAreNotValid');
 
 const dijkstra = (graph, startNodeKey = 'start', finishNodeKey = 'finish') => {
   const response = initializeResponse(startNodeKey, finishNodeKey);
@@ -11,7 +12,7 @@ const dijkstra = (graph, startNodeKey = 'start', finishNodeKey = 'finish') => {
   if (!isValidGraph(graph, startNodeKey, finishNodeKey)) {
     return checkAsError(response, ERR_MESSAGES.NOT_VALID_GRAPH);
   }
-  if (Object.keys(graph).some((key) => typeof graph[key] !== 'object')) {
+  if (someNodesAreNotValid(graph)) {
     return checkAsError(response, ERR_MESSAGES.NOT_VALID_GRAPH_NODE);
   }
   const distancesDict = Object.keys(graph).reduce(

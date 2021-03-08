@@ -1,13 +1,14 @@
 const { checkAsError } = require('./utils/checkAsError');
 const { initializeResponse } = require('./utils/initializeResponse');
 const { ERR_MESSAGES } = require('./utils/consts');
+const isValidGraph = require('./utils/isValidGraph');
 
 const dijkstra = (graph, startNodeKey = 'start', finishNodeKey = 'finish') => {
   const response = initializeResponse(startNodeKey, finishNodeKey);
   if (!graph) {
     return checkAsError(response, ERR_MESSAGES.NO_GRAPH);
   }
-  if (graph[startNodeKey] == null || graph[finishNodeKey] == null) {
+  if (!isValidGraph(graph, startNodeKey, finishNodeKey)) {
     return checkAsError(response, ERR_MESSAGES.NOT_VALID_GRAPH);
   }
   if (Object.keys(graph).some((key) => typeof graph[key] !== 'object')) {
@@ -44,7 +45,7 @@ const dijkstra = (graph, startNodeKey = 'start', finishNodeKey = 'finish') => {
 
   const expectedDistanceIsShorterThanCurrentlySavedForDestinationKey = (
     expectedDistance,
-    destinationNodeKey,
+    destinationNodeKey
   ) => expectedDistance < distancesDict[destinationNodeKey];
 
   const runAlgorithm = (shortestDistanceNodeKey = startNodeKey) => {
@@ -57,7 +58,7 @@ const dijkstra = (graph, startNodeKey = 'start', finishNodeKey = 'finish') => {
         if (
           expectedDistanceIsShorterThanCurrentlySavedForDestinationKey(
             expectedDistance,
-            destinationNodeKey,
+            destinationNodeKey
           )
         ) {
           distancesDict[destinationNodeKey] = expectedDistance;

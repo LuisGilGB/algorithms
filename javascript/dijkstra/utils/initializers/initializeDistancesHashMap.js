@@ -1,4 +1,4 @@
-const { DEFAULT_START_NODE_KEY } = require('./consts');
+const { DEFAULT_START_NODE_KEY } = require('../consts');
 
 const initializeDistancesHashMap = (
   graph = {},

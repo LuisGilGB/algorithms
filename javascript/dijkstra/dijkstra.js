@@ -3,21 +3,16 @@ const {
   DEFAULT_START_NODE_KEY,
   DEFAULT_FINISH_NODE_KEY,
 } = require('./utils/consts');
-const {
-  initializeResponse,
-  initializeDistancesHashMap,
-  initializeParentsHashMap,
-} = require('./utils/initializers');
+const { initializeResponse } = require('./utils/initializers');
 const checkAsError = require('./utils/checkAsError');
 const isValidGraph = require('./utils/isValidGraph');
 const someNodesAreNotValid = require('./utils/someNodesAreNotValid');
-const calculateNextShortestDistanceNodeKey = require('./utils/calculateNextShortestDistanceNodeKey');
-const expectedDistanceIsShorterThanCurrentlySavedForDestinationKey = require('./utils/expectedDistanceIsShorterThanCurrentlySavedForDestinationKey');
+const runDijkstraAlgorithm = require('./utils/runDijkstraAlgorithm');
 
 const dijkstra = (
   graph,
   startNodeKey = DEFAULT_START_NODE_KEY,
-  finishNodeKey = DEFAULT_FINISH_NODE_KEY,
+  finishNodeKey = DEFAULT_FINISH_NODE_KEY
 ) => {
   const response = initializeResponse(startNodeKey, finishNodeKey);
   if (!graph) {
@@ -29,44 +24,12 @@ const dijkstra = (
   if (someNodesAreNotValid(graph)) {
     return checkAsError(response, ERR_MESSAGES.NOT_VALID_GRAPH_NODE);
   }
-  const distancesHashMap = initializeDistancesHashMap(graph, startNodeKey);
-  const parentsHashMap = initializeParentsHashMap(startNodeKey);
-  const evaluatedNodes = [];
 
-  const runAlgorithm = (shortestDistanceNodeKey = startNodeKey) => {
-    const currentNodeDistance = distancesHashMap[shortestDistanceNodeKey];
-    Object.keys(graph[shortestDistanceNodeKey]).forEach(
-      (destinationNodeKey) => {
-        const expectedDistance =
-          currentNodeDistance +
-          graph[shortestDistanceNodeKey][destinationNodeKey];
-        if (
-          expectedDistanceIsShorterThanCurrentlySavedForDestinationKey(
-            distancesHashMap,
-            expectedDistance,
-            destinationNodeKey,
-          )
-        ) {
-          distancesHashMap[destinationNodeKey] = expectedDistance;
-          parentsHashMap[destinationNodeKey] = shortestDistanceNodeKey;
-        }
-      }
-    );
-    evaluatedNodes.push(shortestDistanceNodeKey);
-    const nextShortestDistanceNodeKey = calculateNextShortestDistanceNodeKey(
-      distancesHashMap,
-      evaluatedNodes
-    );
-    if (
-      !nextShortestDistanceNodeKey ||
-      nextShortestDistanceNodeKey === finishNodeKey
-    ) {
-      return;
-    }
-    runAlgorithm(nextShortestDistanceNodeKey);
-  };
-
-  runAlgorithm();
+  const { distancesHashMap, parentsHashMap } = runDijkstraAlgorithm(
+    graph,
+    startNodeKey,
+    finishNodeKey,
+  );
 
   const getRoute = (currentRoute = [finishNodeKey]) => {
     const currentNode = currentRoute[0];

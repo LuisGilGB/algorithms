@@ -1,10 +1,13 @@
 const { DEFAULT_START_NODE_KEY, DEFAULT_FINISH_NODE_KEY } = require('./consts');
-const calculateNextShortestDistanceNodeKey = require('./calculateNextShortestDistanceNodeKey');
-const expectedDistanceIsShorterThanCurrentlySavedForDestinationKey = require('./expectedDistanceIsShorterThanCurrentlySavedForDestinationKey');
 const {
   initializeDistancesHashMap,
   initializeParentsHashMap,
 } = require('./initializers');
+const {
+  calculateNextShortestDistanceNodeKey,
+  expectedDistanceIsShorterThanCurrentlySavedForDestinationKey,
+  hasReachedGraphFinish,
+} = require('./algorithmHelpers');
 
 const runDijkstraAlgorithm = (
   graph = {},
@@ -42,11 +45,6 @@ const runDijkstraAlgorithm = (
     })
   );
 
-  const hasReachedGraphFinish = (nextShortestDistanceNodeKey) => (
-    !nextShortestDistanceNodeKey
-    || nextShortestDistanceNodeKey === finishNodeKey
-  );
-
   const runDijkstraIteration = (shortestDistanceNodeKey = startNodeKey) => {
     const currentNodeDistance = distancesHashMap[shortestDistanceNodeKey];
     evaluateDistancesFromANodeAndUpdateMapsIfShorterDistancesAreFound(
@@ -58,7 +56,7 @@ const runDijkstraAlgorithm = (
       distancesHashMap,
       evaluatedNodes,
     );
-    if (hasReachedGraphFinish(nextShortestDistanceNodeKey)) {
+    if (hasReachedGraphFinish(finishNodeKey, nextShortestDistanceNodeKey)) {
       return {
         distancesHashMap,
         parentsHashMap,

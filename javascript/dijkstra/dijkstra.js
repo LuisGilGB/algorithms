@@ -25,7 +25,7 @@ const dijkstra = (
     return checkAsError(response, ERR_MESSAGES.NOT_VALID_GRAPH_NODE);
   }
 
-  const { distancesHashMap, parentsHashMap } = runDijkstraAlgorithm(
+  const { distancesHashTable, parentsHashTable } = runDijkstraAlgorithm(
     graph,
     startNodeKey,
     finishNodeKey,
@@ -33,7 +33,7 @@ const dijkstra = (
 
   const getRoute = (currentRoute = [finishNodeKey]) => {
     const currentNode = currentRoute[0];
-    const previousNode = parentsHashMap[currentNode];
+    const previousNode = parentsHashTable[currentNode];
     if (!previousNode) {
       return null;
     }
@@ -45,7 +45,7 @@ const dijkstra = (
 
   return {
     ...response,
-    totalDistance: distancesHashMap[finishNodeKey],
+    totalDistance: distancesHashTable[finishNodeKey],
     route: getRoute(),
   };
 };

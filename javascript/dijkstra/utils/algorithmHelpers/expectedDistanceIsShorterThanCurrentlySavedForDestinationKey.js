@@ -1,7 +1,7 @@
 const expectedDistanceIsShorterThanCurrentlySavedForDestinationKey = (
-  distancesHashMap,
+  distancesHashTable,
   expectedDistance,
   destinationNodeKey,
-) => expectedDistance < distancesHashMap[destinationNodeKey];
+) => expectedDistance < distancesHashTable[destinationNodeKey];
 
 module.exports = expectedDistanceIsShorterThanCurrentlySavedForDestinationKey;

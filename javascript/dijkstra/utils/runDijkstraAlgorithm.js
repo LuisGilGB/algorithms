@@ -1,7 +1,7 @@
 const { DEFAULT_START_NODE_KEY, DEFAULT_FINISH_NODE_KEY } = require('./consts');
 const {
-  initializeDistancesHashMap,
-  initializeParentsHashMap,
+  initializeDistancesHashTable,
+  initializeParentsHashTable,
 } = require('./initializers');
 const {
   calculateNextShortestDistanceNodeKey,
@@ -14,55 +14,55 @@ const runDijkstraAlgorithm = (
   startNodeKey = DEFAULT_START_NODE_KEY,
   finishNodeKey = DEFAULT_FINISH_NODE_KEY,
 ) => {
-  const INITIAL_DISTANCES_HASH_TABLE = initializeDistancesHashMap(
+  const INITIAL_DISTANCES_HASH_TABLE = initializeDistancesHashTable(
     graph,
     startNodeKey,
   );
-  const INITIAL_PARENTS_HASH_TABLE = initializeParentsHashMap(startNodeKey);
+  const INITIAL_PARENTS_HASH_TABLE = initializeParentsHashTable(startNodeKey);
   const INITIAL_HASH_TABLES = {
-    previousDistancesHashMap: INITIAL_DISTANCES_HASH_TABLE,
-    previousParentsHashMap: INITIAL_PARENTS_HASH_TABLE,
+    previousDistancesHashTable: INITIAL_DISTANCES_HASH_TABLE,
+    previousParentsHashTable: INITIAL_PARENTS_HASH_TABLE,
   };
   const evaluatedNodes = [];
 
   const runDijkstraIteration = (
     shortestDistanceNodeKey = startNodeKey,
     {
-      previousDistancesHashMap = INITIAL_DISTANCES_HASH_TABLE,
-      previousParentsHashMap = INITIAL_PARENTS_HASH_TABLE,
+      previousDistancesHashTable = INITIAL_DISTANCES_HASH_TABLE,
+      previousParentsHashTable = INITIAL_PARENTS_HASH_TABLE,
     } = INITIAL_HASH_TABLES,
   ) => {
     const currentNodeDistance = (
-      previousDistancesHashMap[shortestDistanceNodeKey]
+      previousDistancesHashTable[shortestDistanceNodeKey]
     );
     const {
-      distancesHashMap,
-      parentsHashMap,
+      distancesHashTable,
+      parentsHashTable,
     } = evaluateDistancesFromANodeAndUpdateMapsIfShorterDistancesAreFound(
       graph,
     )(
       {
-        distancesHashMap: previousDistancesHashMap,
-        parentsHashMap: previousParentsHashMap,
+        distancesHashTable: previousDistancesHashTable,
+        parentsHashTable: previousParentsHashTable,
       },
       shortestDistanceNodeKey,
       currentNodeDistance,
     );
     evaluatedNodes.push(shortestDistanceNodeKey);
     const nextShortestDistanceNodeKey = calculateNextShortestDistanceNodeKey(
-      distancesHashMap,
+      distancesHashTable,
       evaluatedNodes,
     );
     if (hasReachedGraphFinish(finishNodeKey, nextShortestDistanceNodeKey)) {
       return {
-        distancesHashMap,
-        parentsHashMap,
+        distancesHashTable,
+        parentsHashTable,
       };
     }
 
     return runDijkstraIteration(nextShortestDistanceNodeKey, {
-      previousDistancesHashMap: distancesHashMap,
-      previousParentsHashMap: parentsHashMap,
+      previousDistancesHashTable: distancesHashTable,
+      previousParentsHashTable: parentsHashTable,
     });
   };
 

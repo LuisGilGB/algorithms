@@ -4,12 +4,12 @@ const expectedDistanceIsShorterThanCurrentlySavedForDestinationKey = require('./
 const evaluateDistancesFromANodeAndUpdateMapsIfShorterDistancesAreFound = (
   graph = {},
 ) => (
-  { distancesHashMap = {}, parentsHashMap = {} },
+  { distancesHashTable = {}, parentsHashTable = {} },
   currentNodeKey,
   currentNodeDistance,
 ) => {
-  const distancesHashTableDraft = { ...distancesHashMap };
-  const parentsHashTableDraft = { ...parentsHashMap };
+  const distancesHashTableDraft = { ...distancesHashTable };
+  const parentsHashTableDraft = { ...parentsHashTable };
 
   const calculateExpectedDistance = calculateExpectedDistanceInGraph(graph);
 
@@ -31,8 +31,8 @@ const evaluateDistancesFromANodeAndUpdateMapsIfShorterDistancesAreFound = (
   });
 
   return {
-    distancesHashMap: distancesHashTableDraft,
-    parentsHashMap: parentsHashTableDraft,
+    distancesHashTable: distancesHashTableDraft,
+    parentsHashTable: parentsHashTableDraft,
   };
 };
 

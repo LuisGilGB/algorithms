@@ -1,6 +1,6 @@
 const { DEFAULT_START_NODE_KEY } = require('../consts');
 
-const initializeDistancesHashMap = (
+const initializeDistancesHashTable = (
   graph = {},
   startNodeKey = DEFAULT_START_NODE_KEY,
 ) => {
@@ -20,4 +20,4 @@ const initializeDistancesHashMap = (
   );
 };
 
-module.exports = initializeDistancesHashMap;
+module.exports = initializeDistancesHashTable;

@@ -1,9 +1,9 @@
 const initializeResponse = require('./initializeResponse');
-const initializeDistancesHashMap = require('./initializeDistancesHashMap');
-const initializeParentsHashMap = require('./initializeParentsHashMap');
+const initializeDistancesHashTable = require('./initializeDistancesHashTable');
+const initializeParentsHashTable = require('./initializeParentsHashTable');
 
 module.exports = {
   initializeResponse,
-  initializeDistancesHashMap,
-  initializeParentsHashMap,
+  initializeDistancesHashTable,
+  initializeParentsHashTable,
 };

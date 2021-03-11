@@ -13,7 +13,7 @@ const evaluateDistancesFromANodeAndUpdateTablesIfShorterDistancesAreFound = (
 
   const calculateExpectedDistance = calculateExpectedDistanceInGraph(graph);
 
-  Object.keys(graph[currentNodeKey]).forEach((destinationNodeKey) => {
+  const evaluateDestinationNodeAndUpdateTables = (destinationNodeKey) => {
     const expectedDistance = calculateExpectedDistance(
       { key: currentNodeKey, distance: currentNodeDistance },
       { key: destinationNodeKey },
@@ -28,7 +28,13 @@ const evaluateDistancesFromANodeAndUpdateTablesIfShorterDistancesAreFound = (
       distancesHashTableDraft[destinationNodeKey] = expectedDistance;
       parentsHashTableDraft[destinationNodeKey] = currentNodeKey;
     }
-  });
+  };
+
+  const evaluateAllDestinationNodesAndUpdateTables = () => (
+    Object.keys(graph[currentNodeKey]).forEach(evaluateDestinationNodeAndUpdateTables)
+  );
+
+  evaluateAllDestinationNodesAndUpdateTables();
 
   return {
     distancesHashTable: distancesHashTableDraft,

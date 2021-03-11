@@ -24,6 +24,11 @@ const runDijkstraAlgorithm = (
     previousParentsHashTable: INITIAL_PARENTS_HASH_TABLE,
   };
   const evaluatedNodes = [];
+  const graphDistancesEvaluatorAndUpdator = (
+    evaluateDistancesFromANodeAndUpdateTablesIfShorterDistancesAreFound(
+      graph,
+    )
+  );
 
   const runDijkstraIteration = (
     shortestDistanceNodeKey = startNodeKey,
@@ -38,9 +43,7 @@ const runDijkstraAlgorithm = (
     const {
       distancesHashTable,
       parentsHashTable,
-    } = evaluateDistancesFromANodeAndUpdateTablesIfShorterDistancesAreFound(
-      graph,
-    )(
+    } = graphDistancesEvaluatorAndUpdator(
       {
         distancesHashTable: previousDistancesHashTable,
         parentsHashTable: previousParentsHashTable,
@@ -49,6 +52,7 @@ const runDijkstraAlgorithm = (
       currentNodeDistance,
     );
     evaluatedNodes.push(shortestDistanceNodeKey);
+
     const nextShortestDistanceNodeKey = calculateNextShortestDistanceNodeKey(
       distancesHashTable,
       evaluatedNodes,

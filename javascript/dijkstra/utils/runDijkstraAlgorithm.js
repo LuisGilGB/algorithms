@@ -5,7 +5,7 @@ const {
 } = require('./initializers');
 const {
   calculateNextShortestDistanceNodeKey,
-  evaluateDistancesFromANodeAndUpdateMapsIfShorterDistancesAreFound,
+  evaluateDistancesFromANodeAndUpdateTablesIfShorterDistancesAreFound,
   hasReachedGraphFinish,
 } = require('./algorithmHelpers');
 
@@ -38,7 +38,7 @@ const runDijkstraAlgorithm = (
     const {
       distancesHashTable,
       parentsHashTable,
-    } = evaluateDistancesFromANodeAndUpdateMapsIfShorterDistancesAreFound(
+    } = evaluateDistancesFromANodeAndUpdateTablesIfShorterDistancesAreFound(
       graph,
     )(
       {

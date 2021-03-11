@@ -1,7 +1,7 @@
 const calculateExpectedDistanceInGraph = require('./calculateExpectedDistanceInGraph');
 const expectedDistanceIsShorterThanCurrentlySavedForDestinationKey = require('./expectedDistanceIsShorterThanCurrentlySavedForDestinationKey');
 
-const evaluateDistancesFromANodeAndUpdateMapsIfShorterDistancesAreFound = (
+const evaluateDistancesFromANodeAndUpdateTablesIfShorterDistancesAreFound = (
   graph = {},
 ) => (
   { distancesHashTable = {}, parentsHashTable = {} },
@@ -36,4 +36,4 @@ const evaluateDistancesFromANodeAndUpdateMapsIfShorterDistancesAreFound = (
   };
 };
 
-module.exports = evaluateDistancesFromANodeAndUpdateMapsIfShorterDistancesAreFound;
+module.exports = evaluateDistancesFromANodeAndUpdateTablesIfShorterDistancesAreFound;
